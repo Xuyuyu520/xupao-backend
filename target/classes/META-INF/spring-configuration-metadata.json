@@ -2,20 +2,20 @@
   "groups": [
     {
       "name": "spring.redis",
-      "type": "com.yupi.usercenter.config.RedissonConfig",
-      "sourceType": "com.yupi.usercenter.config.RedissonConfig"
+      "type": "com.xyc.xupao.config.RedissonConfig",
+      "sourceType": "com.xyc.xupao.config.RedissonConfig"
     }
   ],
   "properties": [
     {
       "name": "spring.redis.host",
       "type": "java.lang.String",
-      "sourceType": "com.yupi.usercenter.config.RedissonConfig"
+      "sourceType": "com.xyc.xupao.config.RedissonConfig"
     },
     {
       "name": "spring.redis.port",
       "type": "java.lang.Integer",
-      "sourceType": "com.yupi.usercenter.config.RedissonConfig"
+      "sourceType": "com.xyc.xupao.config.RedissonConfig"
     }
   ],
   "hints": []
