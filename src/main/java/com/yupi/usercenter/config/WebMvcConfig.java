@@ -7,8 +7,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * 跨域配置
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * @author <a href="https://github.com/Xuyuyu520">程序员小徐</a>
+ * @from <a href="https://github.com/Xuyuyu520">主页知识主页</a>
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {

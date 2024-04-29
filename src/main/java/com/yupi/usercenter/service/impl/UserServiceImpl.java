@@ -33,8 +33,8 @@ import static com.yupi.usercenter.contant.UserConstant.USER_LOGIN_STATE;
 /**
  * 用户服务实现类
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * @author <a href="https://github.com/Xuyuyu520">程序员小徐</a>
+ * @from <a href="https://github.com/Xuyuyu520">主页知识主页</a>
  */
 @Service
 @Slf4j
@@ -57,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 	 * @param userAccount   用户账户
 	 * @param userPassword  用户密码
 	 * @param checkPassword 校验密码
-	 * @param planetCode    星球编号
+	 * @param planetCode    主页编号
 	 * @return 新用户 id
 	 */
 	@Override
@@ -73,7 +73,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户密码过短");
 		}
 		if (planetCode.length() > 5) {
-			throw new BusinessException(ErrorCode.PARAMS_ERROR, "星球编号过长");
+			throw new BusinessException(ErrorCode.PARAMS_ERROR, "主页编号过长");
 		}
 		// 账户不能包含特殊字符
 		String validPattern = "[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
@@ -92,7 +92,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 		if (count > 0) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "账号重复");
 		}
-		// 星球编号不能重复
+		// 主页编号不能重复
 		queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("planetCode", planetCode);
 		count = userMapper.selectCount(queryWrapper);
@@ -113,7 +113,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 		return user.getId();
 	}
 
-	// [加入星球]() 从 0 到 1 项目实战，经验拉满！10+ 原创项目手把手教程、7 日项目提升训练营、60+ 编程经验分享直播、1000+ 项目经验笔记
+	// [加入主页]() 从 0 到 1 项目实战，经验拉满！10+ 原创项目手把手教程、7 日项目提升训练营、60+ 编程经验分享直播、1000+ 项目经验笔记
 
 	/**
 	 * 用户登录
