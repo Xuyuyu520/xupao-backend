@@ -213,7 +213,7 @@ public class UserController {
 	 */
 	@ApiOperation("匹配用户")
 	@GetMapping("/match")
-	public BaseResponse<List<UserVO>> matchUsers(long num, HttpServletRequest request) {
+	public BaseResponse<List<User>> matchUsers(long num, HttpServletRequest request) {
 		if (num <= 0 || num > 20) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR);
 		}

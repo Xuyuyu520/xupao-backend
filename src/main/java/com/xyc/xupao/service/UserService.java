@@ -1,9 +1,7 @@
 package com.xyc.xupao.service;
 
-import com.xyc.xupao.common.BaseResponse;
 import com.xyc.xupao.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xyc.xupao.model.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -92,9 +90,10 @@ public interface UserService extends IService<User> {
 
 	/**
 	 * 匹配用户
+	 *
 	 * @param num
 	 * @param loginUser
 	 * @return
 	 */
-	List<UserVO> matchUsers(long num, User loginUser);
+	List<User> matchUsers(long num, User loginUser);
 }

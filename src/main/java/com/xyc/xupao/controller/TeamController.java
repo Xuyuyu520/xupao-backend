@@ -27,7 +27,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -100,6 +103,20 @@ public class TeamController {
 		}
 		boolean admin = userService.isAdmin(request);
 		List<TeamUserVO> teamList = teamService.listTeams(teamQuery, admin);
+		// 判断是否加入队伍
+		List<Long> teamIdList = teamList.stream().map(TeamUserVO::getId).collect(Collectors.toList());
+
+		try {
+			User loginUser = userService.getLoginUser(request);
+			List<UserTeam> userTeamList = userTeamService.list(new QueryWrapper<UserTeam>()
+					.eq("userId", loginUser.getId())
+					.in("teamId", teamIdList));
+			Set<Long> hasJoinTeamIdSet = userTeamList.stream().map(UserTeam::getId).collect(Collectors.toSet());
+			teamList.forEach(team -> {
+				boolean hasJoin = hasJoinTeamIdSet.contains(team.getId());
+				team.setHasJoin(hasJoin);
+			});
+		} catch (Exception e) {}
 		return ResultUtils.success(teamList, "获取分页数据成功");
 	}
 
@@ -176,7 +193,7 @@ public class TeamController {
 		}
 		User loginUser = userService.getLoginUser(request);
 		List<UserTeam> userTeamList = userTeamService.list(new QueryWrapper<UserTeam>().eq("userId", loginUser.getId()));
-		List<Long> idList = (List<Long>) userTeamList.stream().collect(Collectors.groupingBy(UserTeam::getTeamId)).keySet();
+		List<Long> idList = new ArrayList<>(userTeamList.stream().collect(Collectors.groupingBy(UserTeam::getTeamId)).keySet());
 		teamQuery.setIdList(idList);
 		List<TeamUserVO> teamList = teamService.listTeams(teamQuery, true);
 		return ResultUtils.success(teamList, "获取分页数据成功");
