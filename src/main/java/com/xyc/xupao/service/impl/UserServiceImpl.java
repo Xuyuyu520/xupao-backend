@@ -9,6 +9,7 @@ import com.xyc.xupao.contant.UserConstant;
 import com.xyc.xupao.exception.BusinessException;
 import com.xyc.xupao.mapper.UserMapper;
 import com.xyc.xupao.model.domain.User;
+import com.xyc.xupao.model.vo.UserVO;
 import com.xyc.xupao.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -18,10 +19,7 @@ import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -36,8 +34,7 @@ import static com.xyc.xupao.contant.UserConstant.USER_LOGIN_STATE;
  */
 @Service
 @Slf4j
-public class UserServiceImpl extends ServiceImpl<UserMapper, User>
-		implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User>implements UserService {
 
 	@Resource
 	private UserMapper userMapper;
@@ -282,6 +279,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 	public boolean isAdmin(User loginUser) {
 
 		return loginUser != null && loginUser.getUserRole() == UserConstant.ADMIN_ROLE;
+	}
+
+	/**
+	 * 匹配用户
+	 *
+	 * @param num
+	 * @param loginUser
+	 * @return
+	 */
+	@Override
+	public List<UserVO> matchUsers(long num, User loginUser) {
+
+		return Collections.emptyList();
 	}
 }
 

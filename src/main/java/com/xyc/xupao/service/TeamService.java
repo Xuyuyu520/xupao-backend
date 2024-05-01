@@ -5,6 +5,7 @@ import com.xyc.xupao.model.domain.Team;
 import com.xyc.xupao.model.domain.User;
 import com.xyc.xupao.model.dto.TeamQuery;
 import com.xyc.xupao.model.request.TeamJoinRequest;
+import com.xyc.xupao.model.request.TeamQuitRequest;
 import com.xyc.xupao.model.request.TeamUpdateRequest;
 import com.xyc.xupao.model.vo.TeamUserVO;
 
@@ -51,4 +52,21 @@ public interface TeamService extends IService<Team> {
 	 * @return
 	 */
 	boolean joinTeam(TeamJoinRequest teamJoinRequest, User loginUser);
+
+	/**
+	 * 退出队伍
+	 * @param teamQuitRequest
+	 * @param loginUser
+	 * @return
+	 */
+	boolean quitTeam(TeamQuitRequest teamQuitRequest, User loginUser);
+
+	/**
+	 * 删除队伍
+	 *
+	 * @param id
+	 * @param loginUser
+	 * @return
+	 */
+	boolean deleteTeam(Long id, User loginUser);
 }

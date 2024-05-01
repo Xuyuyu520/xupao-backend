@@ -9,6 +9,7 @@ import com.xyc.xupao.exception.BusinessException;
 import com.xyc.xupao.model.domain.User;
 import com.xyc.xupao.model.request.UserLoginRequest;
 import com.xyc.xupao.model.request.UserRegisterRequest;
+import com.xyc.xupao.model.vo.UserVO;
 import com.xyc.xupao.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +38,7 @@ import static com.xyc.xupao.contant.UserConstant.USER_LOGIN_STATE;
 @RestController
 @Api(tags = "用户接口")
 @RequestMapping("/user")
-@CrossOrigin(origins = {"http://localhost:5173"})
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class UserController {
 
 	@Resource
@@ -98,6 +99,7 @@ public class UserController {
 	 * @param request
 	 * @return
 	 */
+	@ApiOperation("用户登出")
 	@PostMapping("/logout")
 	public BaseResponse<Integer> userLogout(HttpServletRequest request) {
 		if (request == null) {
@@ -113,6 +115,7 @@ public class UserController {
 	 * @param request
 	 * @return
 	 */
+	@ApiOperation("获取当前用户")
 	@GetMapping("/current")
 	public BaseResponse<User> getCurrentUser(HttpServletRequest request) {
 		Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
@@ -128,7 +131,7 @@ public class UserController {
 	}
 
 	// https://github.com/Xuyuyu520/
-
+	@ApiOperation("查询用户")
 	@GetMapping("/search")
 	public BaseResponse<List<User>> searchUsers(String username, HttpServletRequest request) {
 		if (!userService.isAdmin(request)) {
@@ -143,6 +146,7 @@ public class UserController {
 		return ResultUtils.success(list);
 	}
 
+	@ApiOperation("推荐用户")
 	@GetMapping("/recommend")
 	public BaseResponse<Page<User>> recommendUsers(long pageSize, long pageNum, HttpServletRequest request) {
 		User loginUser = userService.getLoginUser(request);
@@ -158,13 +162,14 @@ public class UserController {
 		userPage = userService.page(new Page<>(pageNum, pageSize), queryWrapper);
 		// 然后存入缓存
 		try {
-			valueOperations.set(key, userPage,30000, TimeUnit.MICROSECONDS);
+			valueOperations.set(key, userPage, 30000, TimeUnit.MICROSECONDS);
 		} catch (Exception e) {
 			log.error("存入缓存失败-redis set key Error ", e);
 		}
 		return ResultUtils.success(userPage);
 	}
 
+	@ApiOperation("查询标签")
 	@GetMapping("/search/tags")
 	public BaseResponse<List<User>> searchUsersByTags(@RequestParam(required = false) List<String> tagNameList) {
 		if (CollectionUtils.isEmpty(tagNameList)) {
@@ -174,6 +179,7 @@ public class UserController {
 		return ResultUtils.success(userList);
 	}
 
+	@ApiOperation("更新用户")
 	@PostMapping("/update")
 	public BaseResponse<Integer> updateUser(@RequestBody User user, HttpServletRequest request) {
 		if (user == null) {
@@ -185,6 +191,7 @@ public class UserController {
 		return ResultUtils.success(result);
 	}
 
+	@ApiOperation("删除用户")
 	@PostMapping("/delete")
 	public BaseResponse<Boolean> deleteUser(@RequestBody long id, HttpServletRequest request) {
 		if (!userService.isAdmin(request)) {
@@ -197,7 +204,20 @@ public class UserController {
 		return ResultUtils.success(b);
 	}
 
-	// [小徐的学习圈](https://github.com/Xuyuyu520) 从 0 到 1 求职指导，斩获 offer！1 对 1 简历优化服务、2000+ 求职面试经验分享、200+ 真实简历和建议参考、25w 字前后端精选面试题
-
-
+	/**
+	 * 匹配用户
+	 *
+	 * @param num     数字
+	 * @param request 请求
+	 * @return {@link BaseResponse }<{@link User }>
+	 */
+	@ApiOperation("匹配用户")
+	@GetMapping("/match")
+	public BaseResponse<List<UserVO>> matchUsers(long num, HttpServletRequest request) {
+		if (num <= 0 || num > 20) {
+			throw new BusinessException(ErrorCode.PARAMS_ERROR);
+		}
+		User loginUser = userService.getLoginUser(request);
+		return ResultUtils.success(userService.matchUsers(num, loginUser));
+	}
 }

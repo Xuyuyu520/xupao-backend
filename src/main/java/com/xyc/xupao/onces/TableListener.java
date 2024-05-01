@@ -35,6 +35,6 @@ public class TableListener implements ReadListener<XuUserInfo> {
 	 * 加上存储数据库
 	 */
 	private void saveData() {
-
+		log.error("更新失败");
 	}
 }

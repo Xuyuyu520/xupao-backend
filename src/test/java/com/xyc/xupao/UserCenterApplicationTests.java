@@ -26,7 +26,7 @@ class UserCenterApplicationTests {
 
     @Test
     void contextLoads() {
-
+        System.out.println("连接失败");
     }
 
 }
